@@ -11,38 +11,71 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import Icon from '@material-ui/core/Icon'
 
 const styles = {
   sidebar: {
     zIndex: 1,
     position: 'relative',
-    paddingTop: '100px',
-    width: '240px'
   },
-  list:{
+  drawer:{
     paddingTop: '88px',
-    width: '240px'
+    marginLeft: '15px',
+    marginRight: '15px',
+    width: '210px',
+    textAlign:'center'
+  },
+  inputButton:{
+    textAlign: 'left',
+    padding:'5px',
+    height:'100%',
+    width:'210px'
   }
 };
 
-function Sidebar(props) {
-  const { classes } = props;
-  return (
-    <div>
-      <Drawer variant="permanent" className={classes.sidebar}>
-        <List className={classes.list}>
-          <ListItem button>
-           <ListItemText primary="Item 1" />
-         </ListItem>
-         <ListItem button>
-           <ListItemText primary="Item 2" />
-         </ListItem>
-        </List>
-      </Drawer>
-    </div>
-  );
+class Sidebar extends React.Component {
+  render(){
+    const { classes } = this.props;
+    if(this.props.input == 'input'){
+      return (
+        <div>
+          <Drawer variant="permanent" className={classes.sidebar}>
+            <div className={classes.drawer}>
+              <Typography variant='subheading'>Input</Typography>
+              <br />
+              <Divider />
+              <br />
+              <ToggleButtonGroup value='input' exclusive>
+                <ToggleButton value='input' className={classes.inputButton} variant='outlined'>
+                  <Icon className='fas fa-pencil-alt' style={{fontSize:15, marginRight:5}} /> Where would you bike if it was comfortable
+                </ToggleButton><br />
+                <ToggleButton value='results' className={classes.inputButton}>
+                  <Icon className='fas fa-fire' style={{fontSize:15, marginRight:5}} /> Item 2
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </div>
+          </Drawer>
+        </div>
+      );
+    }
+    else{
+      return(
+        <div>
+          <Drawer variant="permanent" className={classes.sidebar}>
+            <div className={classes.drawer}>
+              {this.props.input}
+
+            </div>
+          </Drawer>
+        </div>
+      )
+    }
+
+
+  }
+
 }
 
 Sidebar.propTypes = {

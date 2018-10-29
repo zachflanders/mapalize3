@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import './App.css';
 import Nav from './components/nav.js';
 import Sidebar from './components/sidebar.js';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Drawer from '@material-ui/core/Drawer';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
+
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: blue[500] }, // Purple and green play nicely together.
+  }
+});
 
 class App extends Component {
   state = {
-    response: ''
+    response: '',
+    input: 'input'
   };
 
   componentDidMount() {
@@ -32,11 +33,33 @@ class App extends Component {
     return body;
   };
 
+  changeInput(i){
+    this.setState({input: i});
+  };
+
+  renderNav(i){
+    return(
+      <Nav
+        input={i}
+        changeInput={(i) => this.changeInput(i)}
+      />)
+  };
+
+  renderSidebar(i){
+    return(
+      <Sidebar
+        input={i}
+      />
+    )
+  };
+
   render() {
     return (
       <div>
-        <Nav />
-        <Sidebar />
+        <MuiThemeProvider theme={theme}>
+          {this.renderNav(this.state.input)}
+          {this.renderSidebar(this.state.input)}
+        </ MuiThemeProvider>
       </div>
     );
   }
